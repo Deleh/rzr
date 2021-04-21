@@ -30,7 +30,7 @@
 ** Installation
 
    At first, make sure the OpenRazer daemon is running and your user can access it.
-   If you are having trouble, take a look at the [[*Troubleshooting][troubleshooting]] section.
+   If you are having trouble, take a look at the *troubleshooting* section.
    
    This project is a [[https://nixos.wiki/wiki/Flakes][Nix flake]].
    If you are running a recent version of the [[https://nixos.org/][Nix]] pacakge manager and have flakes enabled, you can execute it with:
