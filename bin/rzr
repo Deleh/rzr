@@ -198,8 +198,8 @@ if __name__ == "__main__":
         "command",
         metavar="COMMAND",
         nargs="?",
-        default="list-devices",
-        help="one of the following:\n  list-devices   - list available devices (default)\n  list-lightmaps - list available lightmaps\n  list-profiles  - list available profiles\n  iterate-lights - iterate though all lights of all devices\n  <PROFILE>      - apply the given profile",
+        default=None,
+        help="one of the following:\n  list-devices   - list available devices\n  list-lightmaps - list available lightmaps\n  list-profiles  - list available profiles\n  iterate-lights - iterate though all lights of all devices\n  <PROFILE>      - apply the given profile",
     )
     parser.add_argument(
         "-ld",
@@ -214,6 +214,10 @@ if __name__ == "__main__":
         help="path to directory with profiles (default: ~/.config/rzr/profiles)",
     )
     args = parser.parse_args()
+
+    if not args.command:
+        parser.print_help()
+        exit(0)
 
     # Check if directories exist
     directories_available = True

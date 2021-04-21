@@ -59,19 +59,19 @@
   Set color profiles of your Razer devices.
 
   positional arguments:
-    COMMAND               One of the following:
-                            list-devices   - list devices (default)
-                            list-lightmaps - list lightmaps
+    COMMAND               one of the following:
+                            list-devices   - list available devices
+                            list-lightmaps - list available lightmaps
                             list-profiles  - list available profiles
-                            iterate-lights - iterate lights of all devices
+                            iterate-lights - iterate though all lights of all devices
                             <PROFILE>      - apply the given profile
 
   optional arguments:
     -h, --help            show this help message and exit
     -ld LIGHTMAP_DIRECTORY, --lightmap-directory LIGHTMAP_DIRECTORY
-                          Path to directory with lightmaps (default: ~/.config/rzr/lightmaps)
+                          path to directory with lightmaps (default: ~/.config/rzr/lightmaps)
     -pd PROFILE_DIRECTORY, --profile-directory PROFILE_DIRECTORY
-                          Path to directory with profiles (default: ~/.config/rzr/profiles)
+                          path to directory with profiles (default: ~/.config/rzr/profiles)
 #+end_src
  
 ** Configuration
