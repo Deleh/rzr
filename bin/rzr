@@ -3,7 +3,6 @@
 from argparse import RawTextHelpFormatter
 from colour import Color
 from openrazer.client import DeviceManager
-from openrazer.client import constants as razer_constants
 from pathlib import Path
 
 import argparse
@@ -63,7 +62,7 @@ def apply_lightmap(device_profile):
         None,
     )
     if not device:
-        error("device '{}' not found".format(device_profile["name"]))
+        error("device '{}' not available".format(device_profile["name"]))
         exit(1)
 
     # Open lightmap
@@ -72,11 +71,19 @@ def apply_lightmap(device_profile):
             "{}/{}.toml".format(lightmap_directory, device_profile["lightmap"])
         )
     except FileNotFoundError:
-        error("the lightmap '{}' doesn't exist".format(device_profile["lightmap"]))
+        error(
+            "the lightmap '{}' for device '{}' doesn't exist".format(
+                device_profile["lightmap"], device_profile["name"]
+            )
+        )
         list_lightmaps()
         exit(1)
     except Exception as e:
-        error("failed to load lightmap '{}': {}".format(device_profile["lightmap"], e))
+        error(
+            "failed to load lightmap '{}' for device '{}': {}".format(
+                device_profile["lightmap"], device_profile["name"], e
+            )
+        )
         exit(1)
 
     # Set light colors
@@ -88,13 +95,17 @@ def apply_lightmap(device_profile):
             ] = color_tuple
     except KeyError:
         error(
-            "light '{}' is not available in lightmap '{}'".format(
-                light, device_profile["lightmap"]
+            "light '{}' is not available in lightmap '{}' for device '{}'".format(
+                light, device_profile["lightmap"], device_profile["name"]
             )
         )
         exit(1)
     except Exception as e:
-        error("failed to set light '{}': {}".format(light, e))
+        error(
+            "failed to set light '{}' for device '{}': {}".format(
+                light, device_profile["name"], e
+            )
+        )
         exit(1)
 
     # Apply light colors
@@ -161,6 +172,9 @@ if __name__ == "__main__":
 
     global device_manager, lightmap_directory, profile_directory
 
+    # Print greeter
+    print_greeter()
+
     # Create device manager
     try:
         device_manager = DeviceManager()
@@ -194,9 +208,6 @@ if __name__ == "__main__":
         help="Path to directory with profiles (default: ~/.config/rzr/profiles)",
     )
     args = parser.parse_args()
-
-    # Print greeter
-    print_greeter()
 
     # Check if directories exist
     directories_available = True
