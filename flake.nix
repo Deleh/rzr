@@ -26,13 +26,13 @@
               nativeBuildInputs = with pkgs; [
                 wrapGAppsHook
               ];
-              
+
               propagatedBuildInputs = with pkgs; [
                 python3Packages.colour
                 python3Packages.openrazer
                 python3Packages.toml
               ];
-              
+
             };
 
           defaultPackage = self.packages.${system}.rzr;
@@ -40,6 +40,7 @@
           # Development shell
 
           devShell = pkgs.mkShell {
+
             buildInputs = with pkgs; [
               python3
               python3Packages.pip
@@ -48,6 +49,7 @@
               python3Packages.openrazer
               python3Packages.toml
             ];
+
             shellHook = ''
               if [ ! -d .venv ]; then
                 python -m venv .venv
@@ -56,6 +58,7 @@
               pip install --upgrade pip
               pip install -r requirements.txt
             '';
+
           };
 
         }
