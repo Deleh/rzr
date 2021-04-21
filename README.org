@@ -2,6 +2,25 @@
 
   *rzr* is a simple command line frontend for [[https://openrazer.github.io/][OpenRazer]].
   It allows to set static lighting profiles of Razer devices, based on configuration files.
+
+  Lets assume you have created a profile with the name =fps=, containing the following color declarations:
+
+  #+begin_src toml
+    w = "aqua"
+    a = "#ff0000"
+    s = "#f0f"
+    d = "white"
+  #+end_src
+
+  All you have to do to apply the profile is to execute the following command:
+
+  #+begin_src sh
+    rzr fps
+  #+end_src
+  
+  The WASD keys are now lighted accordingly.
+
+  This allows to switch between lighting profiles using the command line, a script or even [[https://direnv.net/][direnv]].
   
 ** Features
 
@@ -14,7 +33,7 @@
    If you are having trouble, take a look at the [[*Troubleshooting][troubleshooting]] section.
    
    This project is a [[https://nixos.wiki/wiki/Flakes][Nix flake]].
-   If you are running a recent version of the [[https://nixos.org/][Nix]] pacakge manager and have flakes enabled you can execute it with:
+   If you are running a recent version of the [[https://nixos.org/][Nix]] pacakge manager and have flakes enabled, you can execute it with:
 
    #+begin_src sh
      nix run github:Deleh/rzr
@@ -97,8 +116,7 @@
     
     Make up a name for every used device in a profile, e.g. =mouse= for your mouse and =keyboard= for the keyboard (obvious) or choose other names.
     Then create a new field for every device with the chosen name, followed by the mandatory name and lightmap.
-    Lightmaps are identified by their filename without the =.toml= part.
-    For example:
+    Lightmaps are identified by their filename without the =.toml= part, for example:
 
     #+begin_src toml
       [keyboard]
@@ -132,7 +150,7 @@
     
 ** Troubleshooting
 
-   If you have problems with accessing the OpenRazer daemon make sure your user is in the =plugdev= group.
+   Make sure your user is in the =plugdev= group to access the OpenRazer daemon.
 
    If this is the case and you still have problems, stop the daemon with the following command:
   
