@@ -11,7 +11,7 @@ import time
 import toml
 
 
-def print_greeter():
+def print_logo():
 
     logo = """         _            _                 _
         /\ \        /\ \               /\ \    
@@ -178,8 +178,8 @@ if __name__ == "__main__":
 
     global device_manager, lightmap_directory, profile_directory
 
-    # Print greeter
-    print_greeter()
+    # Print logo
+    print_logo()
 
     # Create device manager
     try:
