@@ -57,7 +57,7 @@ def apply_lightmap(device_profile):
         (
             d
             for d in device_manager.devices
-            if d.name.lower() == device_profile["name"].lower()
+            if d.name.lower().strip() == device_profile["name"].lower().strip()
         ),
         None,
     )
