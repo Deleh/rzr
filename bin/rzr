@@ -121,7 +121,7 @@ def iterate_lights():
         device.fx.none()
         device.fx.advanced.draw()
 
-    # Iterate through device matrices and turn on one light every second
+    # Iterate through all devices
     for device in device_manager.devices:
 
         # Wait five seconds
@@ -129,12 +129,19 @@ def iterate_lights():
             print("{} will be iterated in {} seconds".format(device.name, i))
             time.sleep(1)
 
-        for i in range(device.fx.advanced.rows):
-            for j in range(device.fx.advanced.cols):
-                device.fx.advanced.matrix[i, j] = (255, 255, 255)
-                device.fx.advanced.draw()
-                print("{}: [{}, {}]".format(device.name, i, j))
-                time.sleep(1)
+        try:
+
+            # Turn on one light every second
+            for i in range(device.fx.advanced.rows):
+                for j in range(device.fx.advanced.cols):
+                    device.fx.advanced.matrix[i, j] = (255, 255, 255)
+                    device.fx.advanced.draw()
+                    print("{}: [{}, {}]".format(device.name, i, j))
+                    time.sleep(1)
+
+        except Exception as e:
+            error("failed to iterate device '{}': {}".format(device.name, e))
+            exit(1)
 
 
 def list_devices():
