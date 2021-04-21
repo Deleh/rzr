@@ -1,0 +1,12 @@
+* rzr
+
+  Apply lightmaps to Razer devices.
+  
+** Troubleshooting
+  
+   If config file not found error:
+  
+   #+begin_example sh
+     systemctl --user stop openrazer-daemon.service
+     openrazer-daemon -Fv
+   #+end_example

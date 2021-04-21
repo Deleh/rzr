@@ -1,0 +1,20 @@
+[mouse]
+name = "Razer Mamba Elite"
+lightmap = "razer_mamba_elite"
+
+[mouse.lights]
+wheel = "red"
+logo = "red"
+l0 = "red"
+r0 = "red"
+
+[keyboard]
+name = "Razer BlackWidow Chroma"
+lightmap = "razer_blackwidow_chroma_de"
+
+[keyboard.lights]
+w = "red"
+a = "red"
+s = "red"
+d = "red"
+logo = "green"
