@@ -1,6 +1,6 @@
 [mouse]
 name = "Razer Mamba Elite"
-lightmap = "razer_mamba_elite"
+lightmap = "mamba_elite"
 
 [mouse.lights]
 wheel = "cyan"
@@ -16,7 +16,7 @@ r8 = "white"
 
 [keyboard]
 name = "Razer BlackWidow Chroma"
-lightmap = "razer_blackwidow_chroma_de"
+lightmap = "blackwidow_chroma_de"
 
 [keyboard.lights]
 logo = "#dc143c"
