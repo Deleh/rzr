@@ -3,18 +3,24 @@ name = "Razer Mamba Elite"
 lightmap = "razer_mamba_elite"
 
 [mouse.lights]
-wheel = "red"
-logo = "red"
-l0 = "red"
-r0 = "red"
+wheel = "cyan"
+logo = "white"
+l0 = "#ff0"
+l1 = "#ffff22"
+l7 = "#ffffdd"
+l8 = "white"
+r0 = "#f0f"
+r1 = "#ff22ff"
+r7 = "#ffddff"
+r8 = "white"
 
 [keyboard]
 name = "Razer BlackWidow Chroma"
 lightmap = "razer_blackwidow_chroma_de"
 
 [keyboard.lights]
-w = "red"
-a = "red"
-s = "red"
-d = "red"
-logo = "green"
+logo = "#dc143c"
+w = "coral"
+a = "bisque"
+s = "lightgreen"
+d = "cornflowerblue"
