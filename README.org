@@ -1,12 +1,149 @@
 * rzr
 
-  Apply lightmaps to Razer devices.
+  *rzr* is a simple command line frontend for [[https://openrazer.github.io/][OpenRazer]].
+  It allows to set static lighting profiles of Razer devices, based on configuration files.
   
+** Features
+
+   - Write lighting profiles in TOML
+   - Apply profiles with one command     
+   
+** Installation
+
+   At first, make sure the OpenRazer daemon is running and your user can access it.
+   If you are having trouble, take a look at the [[*Troubleshooting][troubleshooting]] section.
+   
+   This project is a [[https://nixos.wiki/wiki/Flakes][Nix flake]].
+   If you are running a recent version of the [[https://nixos.org/][Nix]] pacakge manager and have flakes enabled you can execute it with:
+
+   #+begin_src sh
+     nix run github:Deleh/rzr
+   #+end_src
+
+   On legacy systems you need to make sure the [[https://github.com/openrazer/openrazer/tree/master/pylib][Python libraries]] for OpenRazer are in your path, then clone this repository and execute:
+
+   #+begin_src sh
+     python setup.py install
+   #+end_src
+
+   Or make sure the requirements in =requirements.txt= are fulfilled and call the program directly with:
+
+   #+begin_src sh
+     python bin/rzr
+   #+end_src
+   
+** Usage
+
+#+begin_src text
+  usage: rzr [-h] [-ld LIGHTMAP_DIRECTORY] [-pd PROFILE_DIRECTORY] [COMMAND]
+
+  Set color profiles of your Razer devices.
+
+  positional arguments:
+    COMMAND               One of the following:
+                            list-devices   - list devices (default)
+                            list-lightmaps - list lightmaps
+                            list-profiles  - list available profiles
+                            iterate-lights - iterate lights of all devices
+                            <PROFILE>      - apply the given profile
+
+  optional arguments:
+    -h, --help            show this help message and exit
+    -ld LIGHTMAP_DIRECTORY, --lightmap-directory LIGHTMAP_DIRECTORY
+                          Path to directory with lightmaps (default: ~/.config/rzr/lightmaps)
+    -pd PROFILE_DIRECTORY, --profile-directory PROFILE_DIRECTORY
+                          Path to directory with profiles (default: ~/.config/rzr/profiles)
+#+end_src
+ 
+** Configuration
+
+*** Lightmaps
+
+    The lights of Razer devices are arranged in two dimensional matrices with various numbers of columns and rows.
+    So called /lightmaps/ are TOML files which map identifiers to positions in the matrices.
+    For every device at least one lightmap must be created and be placed in the =LIGHTMAP_DIRECTORY= (default: =~/.config/rzr/lightmaps=).
+    
+    Lightmaps for the following devices can be found in the =lightmaps= directory:
+
+    - Razer BlackWidow Chroma german keyboard layout (=blackwidow_chroma_de.toml=)
+    - Razer Mamba Elite (=mamba_elite.toml=)
+
+    If your device is not in the list, use one of those as template and feel free to create a pull request.
+    The =iterate-lights= command iterates through every found device, turns on one light after another and prints the matrix position to stdout.
+    This should ease the creation of new lightmaps.
+
+    Here is an excerpt of the file =blackwidow_chroma_de.toml=:
+
+    #+begin_src toml
+      m2 = [2, 0]
+      tab = [2, 1]
+      q = [2, 2]
+      w = [2, 3]
+      e = [2, 4]
+      r = [2, 5]
+      t = [2, 6]
+    #+end_src
+
+    The =tab= identifies for example the key in the third row and second colum (counting starts at 0) which is the tabulator key on the keyboard.
+    Those identifiers can then be used in profiles to set light colors.
+    
+*** Profiles
+
+    /Profiles/ are configuration files for light colors of one or more devices.
+    They are also TOML files and map identifiers of lightmaps to colors.
+    Create a new profile for every light setup and place it in the =PROFILE_DIRECTORY= (default: =~/.config/rzr/profiles=).
+
+    An example for a profile can be found in the =profiles= directory.
+    
+    Make up a name for every used device in a profile, e.g. =mouse= for your mouse and =keyboard= for the keyboard (obvious) or choose other names.
+    Then create a new field for every device with the chosen name, followed by the mandatory name and lightmap.
+    Lightmaps are identified by their filename without the =.toml= part.
+    For example:
+
+    #+begin_src toml
+      [keyboard]
+      name = "Razer BlackWidow Chroma"
+      lightmap = "blackwidow_chroma_de"
+    #+end_src
+
+    The name of your device can be found with the =list-devices= command.
+    Available lightmaps can be listed with the =list-lightmaps= command.
+
+    Then create another field =[<chosen_device_name>.lights]=, followed by any key value pairs.
+    The keys are the identifiers from the set lightmap, values are color strings.
+    For example:
+
+    #+begin_src toml
+      [keyboard.lights]
+      logo = "green"
+      w = "aqua"
+      a = "#ff0000"
+      s = "#f0f"
+      d = "white"
+    #+end_src
+
+    A color string can be one of the following:
+
+    - Hexadecimal value with leading hash (e.g. =#ff0000=)
+    - Short hexadecimal value with leading hash (e.g. =#f0f=, then interpreted as =#ff00ff=)
+    - HTML color name (e.g. =green=) (a full list can be found [[https://www.w3schools.com/colors/colors_names.asp][here]])
+
+    Not set lights are turned off.
+    
 ** Troubleshooting
-  
-   If config file not found error:
+
+   If you have problems with accessing the OpenRazer daemon make sure your user is in the =plugdev= group.
+
+   If this is the case and you still have problems, stop the daemon with the following command:
   
    #+begin_example sh
      systemctl --user stop openrazer-daemon.service
-     openrazer-daemon -Fv
    #+end_example
+
+   Then run it manually and check the output:
+   
+   #+begin_src sh
+     openrazer-daemon -Fv
+   #+end_src
+
+   If it complains about a missing config file, put [[https://github.com/openrazer/openrazer/blob/master/daemon/resources/razer.conf][this]] file in the =~/.config/openrazer= directory and restart the daemon.
