@@ -18,18 +18,21 @@
 
           packages.rzr =
 
-            pkgs.python3Packages.buildPythonApplication {
+            pkgs.python3Packages.buildPythonApplication rec {
 
               name = "rzr";
               src = self;
 
-              buildPhase = ''
-              '';
-              installPhase = ''
-                ls -l
-                exit 1
-              '';
-
+              nativeBuildInputs = with pkgs; [
+                wrapGAppsHook
+              ];
+              
+              propagatedBuildInputs = with pkgs; [
+                python3Packages.colour
+                python3Packages.openrazer
+                python3Packages.toml
+              ];
+              
             };
 
           defaultPackage = self.packages.${system}.rzr;
@@ -39,7 +42,20 @@
           devShell = pkgs.mkShell {
             buildInputs = with pkgs; [
               python3
+              python3Packages.pip
+              python3Packages.virtualenv
+              python3Packages.colour
+              python3Packages.openrazer
+              python3Packages.toml
             ];
+            shellHook = ''
+              if [ ! -d .venv ]; then
+                python -m venv .venv
+              fi
+              source .venv/bin/activate
+              pip install --upgrade pip
+              pip install -r requirements.txt
+            '';
           };
 
         }
