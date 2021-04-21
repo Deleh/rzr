@@ -8,7 +8,7 @@ setup(
     scripts=["bin/rzr"],
     url="https://git.opaque.tech/denis/rzr",
     license="LICENSE",
-    description="Apply lightmaps to Razer devices",
+    description="A simple command line frontend for OpenRazer",
     long_description=open("README.org").read(),
     install_requires=["colour", "openrazer", "toml"],
 )
