@@ -18,7 +18,7 @@
     rzr fps
   #+end_src
   
-  The WASD keys are now lighted accordingly.
+  The WASD keys get now lighted accordingly.
 
   This allows to switch between lighting profiles using the command line, a script or even [[https://direnv.net/][direnv]].
   
