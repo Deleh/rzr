@@ -1,7 +1,7 @@
 {
   description = "Apply lightmaps to Razer devices";
 
-  nixConfig.bash-prompt = "\[\\e[1m\\e[32rzr-develop\\e[0m\]$ ";
+  nixConfig.bash-prompt = "\[\\e[1m\\e[32mrzr-develop\\e[0m\]$ ";
 
   inputs.flake-utils.url = "github:numtide/flake-utils";
 
@@ -22,6 +22,13 @@
 
               name = "rzr";
               src = self;
+
+              buildPhase = ''
+              '';
+              installPhase = ''
+                ls -l
+                exit 1
+              '';
 
             };
 
