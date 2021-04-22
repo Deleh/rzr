@@ -1,5 +1,5 @@
 {
-  description = "Apply lightmaps to Razer devices";
+  description = "A simple command line frontend for OpenRazer.";
 
   nixConfig.bash-prompt = "\[\\e[1m\\e[32mrzr-develop\\e[0m\]$ ";
 

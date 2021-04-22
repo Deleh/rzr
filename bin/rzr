@@ -181,17 +181,9 @@ if __name__ == "__main__":
     # Print logo
     print_logo()
 
-    # Create device manager
-    try:
-        device_manager = DeviceManager()
-    except Exception as e:
-        error("failed to load device manager: {}".format(e))
-        print("Is the openrazer-daemon running?")
-        exit(1)
-
     # Parse arguments
     parser = argparse.ArgumentParser(
-        description="Set color profiles of your Razer devices.",
+        description="A simple command line frontend for OpenRazer.",
         formatter_class=RawTextHelpFormatter,
     )
     parser.add_argument(
@@ -218,6 +210,14 @@ if __name__ == "__main__":
     if not args.command:
         parser.print_help()
         exit(0)
+
+    # Create device manager
+    try:
+        device_manager = DeviceManager()
+    except Exception as e:
+        error("failed to load device manager: {}".format(e))
+        print("Is the openrazer-daemon running?")
+        exit(1)
 
     # Check if directories exist
     directories_available = True
