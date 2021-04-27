@@ -47,7 +47,7 @@
    If you are having trouble, take a look at the *troubleshooting* section.
    
    This project is a [[https://nixos.wiki/wiki/Flakes][Nix flake]].
-   If you are running a recent version of the [[https://nixos.org/][Nix]] pacakge manager and have flakes enabled, you can execute it with:
+   If you are running a recent version of the [[https://nixos.org/][Nix]] package manager and have flakes enabled, you can execute it with:
 
    #+begin_src sh
      nix run github:Deleh/rzr
