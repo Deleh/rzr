@@ -12,9 +12,9 @@ import toml
 import sys
 
 
-def print_logo():
-
-    logo = """         _            _                 _
+def print_greeter():
+    """Print greeter."""
+    greeter = """         _            _                 _
         /\ \        /\ \               /\ \    
        /  \ \      /  \ \             /  \ \   
       / /\ \ \  __/ /\ \ \           / /\ \ \  
@@ -27,17 +27,18 @@ def print_logo():
 \/_/    \_\/          \/___/_/ \/_/    \_\/    
     """
 
-    print(logo)
+    print(greeter)
 
 
 def error(msg, e=True):
+    """Print error to stderr and exit eventually."""
     print("ERROR: {}".format(msg), file=sys.stderr)
     if e:
         exit(1)
 
 
 def get_color_tuple(color_string):
-
+    """Convert a color string to a RGB tuple in range [0, 255]."""
     # Convert color string to RGB tuple
     try:
         color = Color(color_string).rgb
@@ -56,7 +57,7 @@ def get_color_tuple(color_string):
 
 
 def apply_device_profile(device_profile):
-
+    """Apply a profile section on a device."""
     global device_manager, lightmap_directory
 
     # Get openrazer device
@@ -117,7 +118,7 @@ def apply_device_profile(device_profile):
 
 
 def apply_profile(name):
-
+    """Apply a profile by name."""
     global profile_directory
 
     try:
@@ -129,13 +130,20 @@ def apply_profile(name):
     except Exception as e:
         error("couldn't load profile '{}': {}".format(name, e))
     for device in profile:
+
+        # Check if mandatory fields "name" and "lightmap" exist
+        if "name" not in profile[device]:
+            error("'name' declaration is missing for device '{}'".format(device))
+        if "lightmap" not in profile[device]:
+            error("'lightmap' declaration is missing for device '{}'".format(device))
+
         apply_device_profile(profile[device])
 
     print("Profile '{}' applied".format(name))
 
 
 def iterate_lights():
-
+    """Iterate through every matrix position of every device and light one key after another."""
     global device_manager
 
     try:
@@ -166,14 +174,14 @@ def iterate_lights():
 
 
 def list_devices():
-
+    """Print a list of all available devices."""
     print("The following devices are available:")
     for device in device_manager.devices:
         print("  - {}".format(device.name))
 
 
 def list_lightmaps():
-
+    """Print a list of all available lightmaps."""
     global lightmap_directory
 
     if len(os.listdir(lightmap_directory)) > 0:
@@ -185,7 +193,7 @@ def list_lightmaps():
 
 
 def list_profiles():
-
+    """Print a list of all available profiles."""
     global profile_directory
 
     if len(os.listdir(profile_directory)) > 0:
@@ -200,8 +208,8 @@ if __name__ == "__main__":
 
     global device_manager, lightmap_directory, profile_directory
 
-    # Print logo
-    print_logo()
+    # Print greeter
+    print_greeter()
 
     # Parse arguments
     parser = argparse.ArgumentParser(
