@@ -30,8 +30,10 @@ def print_logo():
     print(logo)
 
 
-def error(msg):
+def error(msg, e=True):
     print("ERROR: {}".format(msg), file=sys.stderr)
+    if e:
+        exit(1)
 
 
 def get_color_tuple(color_string):
@@ -68,7 +70,6 @@ def apply_device_profile(device_profile):
     )
     if not device:
         error("device '{}' not available".format(device_profile["name"]))
-        exit(1)
 
     # Open lightmap
     try:
@@ -79,7 +80,8 @@ def apply_device_profile(device_profile):
         error(
             "the lightmap '{}' for device '{}' doesn't exist".format(
                 device_profile["lightmap"], device_profile["name"]
-            )
+            ),
+            False,
         )
         list_lightmaps()
         exit(1)
@@ -89,7 +91,6 @@ def apply_device_profile(device_profile):
                 device_profile["lightmap"], device_profile["name"], e
             )
         )
-        exit(1)
 
     # Set light colors
     try:
@@ -104,14 +105,12 @@ def apply_device_profile(device_profile):
                 light, device_profile["lightmap"], device_profile["name"]
             )
         )
-        exit(1)
     except Exception as e:
         error(
             "failed to set light '{}' for device '{}': {}".format(
                 light, device_profile["name"], e
             )
         )
-        exit(1)
 
     # Apply light colors
     device.fx.advanced.draw()
@@ -124,12 +123,11 @@ def apply_profile(name):
     try:
         profile = toml.load("{}/{}.toml".format(profile_directory, name))
     except FileNotFoundError:
-        error("the profile '{}' doesn't exist".format(name))
+        error("the profile '{}' doesn't exist".format(name), False)
         list_profiles()
         exit(1)
     except Exception as e:
         error("couldn't load profile '{}': {}".format(name, e))
-        exit(1)
     for device in profile:
         apply_device_profile(profile[device])
 
@@ -140,20 +138,20 @@ def iterate_lights():
 
     global device_manager
 
-    # Turn all lights off
-    for device in device_manager.devices:
-        device.fx.none()
-        device.fx.advanced.draw()
+    try:
 
-    # Iterate through all devices
-    for device in device_manager.devices:
+        # Turn all lights off
+        for device in device_manager.devices:
+            device.fx.none()
+            device.fx.advanced.draw()
 
-        # Wait five seconds
-        for i in range(5, 0, -1):
-            print("{} will be iterated in {} seconds".format(device.name, i))
-            time.sleep(1)
+        # Iterate through all devices
+        for device in device_manager.devices:
 
-        try:
+            # Wait five seconds
+            for i in range(5, 0, -1):
+                print("{} will be iterated in {} seconds".format(device.name, i))
+                time.sleep(1)
 
             # Turn on one light every second
             for i in range(device.fx.advanced.rows):
@@ -163,9 +161,8 @@ def iterate_lights():
                     print("{}: [{}, {}]".format(device.name, i, j))
                     time.sleep(1)
 
-        except Exception as e:
-            error("failed to iterate device '{}': {}".format(device.name, e))
-            exit(1)
+    except Exception as e:
+        error("failed to iterate device '{}': {}".format(device.name, e))
 
 
 def list_devices():
@@ -236,7 +233,7 @@ if __name__ == "__main__":
     try:
         device_manager = DeviceManager()
     except Exception as e:
-        error("failed to load device manager: {}".format(e))
+        error("failed to load device manager: {}".format(e), False)
         print("Is the openrazer-daemon running?")
         exit(1)
 
@@ -246,14 +243,14 @@ if __name__ == "__main__":
     profile_directory = args.profile_directory
 
     if not os.path.exists(lightmap_directory):
-        error("lightmap directory '{}' doesn't exist".format(lightmap_directory))
+        error("lightmap directory '{}' doesn't exist".format(lightmap_directory), False)
         create = input("Create the directory? [y/N] ")
         if create in ["y", "Y"]:
             Path(lightmap_directory).mkdir(parents=True, exist_ok=True)
         else:
             directories_available = False
     if not os.path.exists(profile_directory):
-        error("profile directory '{}' doesn't exist".format(profile_directory))
+        error("profile directory '{}' doesn't exist".format(profile_directory), False)
         create = input("Create the directory? [y/N] ")
         if create in ["y", "Y"]:
             Path(profile_directory).mkdir(parents=True, exist_ok=True)
