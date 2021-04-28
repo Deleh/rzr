@@ -71,6 +71,8 @@ def apply_device_profile(device_profile):
     )
     if not device:
         error("device '{}' not available".format(device_profile["name"]))
+    elif not device.has("lighting_led_matrix"):
+        error("device '{}' not supported".format(device_profile["name"]))
 
     # Open lightmap
     try:
@@ -174,10 +176,11 @@ def iterate_lights():
 
 
 def list_devices():
-    """Print a list of all available devices."""
-    print("The following devices are available:")
+    """Print a list of all available and supported devices."""
+    print("The following devices are available and supported:")
     for device in device_manager.devices:
-        print("  - {}".format(device.name))
+        if device.has("lighting_led_matrix"):
+            print("  - {}".format(device.name))
 
 
 def list_lightmaps():
