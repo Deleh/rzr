@@ -19,7 +19,7 @@ name = "Razer BlackWidow Chroma"
 lightmap = "blackwidow_chroma_de"
 
 [keyboard.lights]
-logo = "#dc143c"
+logo = "dc143c"
 w = "coral"
 a = "bisque"
 s = "lightgreen"

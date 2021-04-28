@@ -20,10 +20,10 @@
   Lets assume you have created a profile with the name =fps=, containing the following color declarations:
 
   #+begin_src toml
-    w = "aqua"
+    w = "red"
     a = "#ff0000"
     s = "#f0f"
-    d = "white"
+    d = "ff2080"
   #+end_src
 
   All you have to do to apply the profile is to execute the following command:
@@ -156,8 +156,8 @@
 
     A color string can be one of the following:
 
-    - Hexadecimal value with leading hash (e.g. =#ff0000=)
-    - Short hexadecimal value with leading hash (e.g. =#f0f=, then interpreted as =#ff00ff=)
+    - Hexadecimal value with or without leading hash (e.g. =#ff0000=)
+    - Short hexadecimal value with or without leading hash (e.g. =f0f=, then interpreted as =#ff00ff=)
     - HTML color name (e.g. =green=) (a full list can be found [[https://www.w3schools.com/colors/colors_names.asp][here]])
 
     Not set lights are turned off.

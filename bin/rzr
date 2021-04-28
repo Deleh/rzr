@@ -39,7 +39,12 @@ def get_color_tuple(color_string):
     try:
         color = Color(color_string).rgb
     except:
-        raise Exception("'{}' is not a valid color".format(color_string))
+
+        # Try again with leading #
+        try:
+            color = Color("#{}".format(color_string)).rgb
+        except:
+            raise Exception("'{}' is not a valid color".format(color_string))
 
     # Scale RGB tuple from [0, 1] to [0, 255]
     color_tuple = tuple(map(lambda x: int(x * 255), color))
