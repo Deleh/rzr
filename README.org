@@ -176,7 +176,7 @@
    *Steam* allows to set various launch options for games.
    This functionality can also be used to apply lighting profiles before the startup and after the exit of a game.
 
-   Lets assume you created a profile called =my_favourite_game= and one called =default=.
+   Lets assume you created a profile called =my_favourite_game= and another one called =default=.
    Right click on your favourite game in the Steam launcher and click /Properties.../.
    On the bottom of the /General/ section is a text field, labeled /launch options/.
    Insert the following command:
@@ -186,7 +186,7 @@
    #+end_src
 
    The first command applies the profile =my_favourite_game= as usual.
-   =&= ensures that the next command is called even if the first on failed.
+   =&= ensures that the next command is called even if the first one failed.
    Your game should start even if *rzr* failed or you have messed up your profile file.
    
    Steam then substitutes the =%command%= part with the binary of the game and runs it.
