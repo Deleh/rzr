@@ -34,7 +34,7 @@
   
   The WASD keys get now lighted accordingly.
 
-  This allows to switch between lighting profiles using the command line, a script or even [[https://direnv.net/][direnv]].
+  This allows to switch quickly between lighting profiles using the command line, a script or even [[https://direnv.net/][direnv]].
   
 ** Features
 
@@ -67,27 +67,29 @@
    
 ** Usage
 
-#+begin_src text
-  usage: rzr [-h] [-ld LIGHTMAP_DIRECTORY] [-pd PROFILE_DIRECTORY] [COMMAND]
+   #+begin_src text
+     usage: rzr [-h] [-ld LIGHTMAP_DIRECTORY] [-pd PROFILE_DIRECTORY] [COMMAND]
 
-  Set color profiles of your Razer devices.
+     Set color profiles of your Razer devices.
 
-  positional arguments:
-    COMMAND               one of the following:
-                            list-devices   - list available devices
-                            list-lightmaps - list available lightmaps
-                            list-profiles  - list available profiles
-                            iterate-lights - iterate though all lights of all devices
-                            <PROFILE>      - apply the given profile
+     positional arguments:
+       COMMAND               one of the following:
+                               list-devices   - list available devices
+                               list-lightmaps - list available lightmaps
+                               list-profiles  - list available profiles
+                               iterate-lights - iterate though all lights of all devices
+                               <PROFILE>      - apply the given profile
 
-  optional arguments:
-    -h, --help            show this help message and exit
-    -ld LIGHTMAP_DIRECTORY, --lightmap-directory LIGHTMAP_DIRECTORY
-                          path to directory with lightmaps (default: ~/.config/rzr/lightmaps)
-    -pd PROFILE_DIRECTORY, --profile-directory PROFILE_DIRECTORY
-                          path to directory with profiles (default: ~/.config/rzr/profiles)
-#+end_src
- 
+     optional arguments:
+       -h, --help            show this help message and exit
+       -ld LIGHTMAP_DIRECTORY, --lightmap-directory LIGHTMAP_DIRECTORY
+                             path to directory with lightmaps (default: ~/.config/rzr/lightmaps)
+       -pd PROFILE_DIRECTORY, --profile-directory PROFILE_DIRECTORY
+                             path to directory with profiles (default: ~/.config/rzr/profiles)
+   #+end_src
+
+   If no command is given and the profile =default= exists, it is applied.
+
 ** Configuration
 
 *** Lightmaps
