@@ -9,6 +9,7 @@ import argparse
 import os
 import time
 import toml
+import sys
 
 
 def print_logo():
@@ -30,7 +31,7 @@ def print_logo():
 
 
 def error(msg):
-    print("ERROR: {}".format(msg))
+    print("ERROR: {}".format(msg), file=sys.stderr)
 
 
 def get_color_tuple(color_string):
@@ -52,7 +53,7 @@ def get_color_tuple(color_string):
     return color_tuple
 
 
-def apply_lightmap(device_profile):
+def apply_device_profile(device_profile):
 
     global device_manager, lightmap_directory
 
@@ -116,6 +117,25 @@ def apply_lightmap(device_profile):
     device.fx.advanced.draw()
 
 
+def apply_profile(name):
+
+    global profile_directory
+
+    try:
+        profile = toml.load("{}/{}.toml".format(profile_directory, name))
+    except FileNotFoundError:
+        error("the profile '{}' doesn't exist".format(name))
+        list_profiles()
+        exit(1)
+    except Exception as e:
+        error("couldn't load profile '{}': {}".format(name, e))
+        exit(1)
+    for device in profile:
+        apply_device_profile(profile[device])
+
+    print("Profile '{}' applied".format(name))
+
+
 def iterate_lights():
 
     global device_manager
@@ -161,7 +181,7 @@ def list_lightmaps():
 
     if len(os.listdir(lightmap_directory)) > 0:
         print("Available lightmaps:")
-        for lightmap_file in os.listdir(lightmap_directory):
+        for lightmap_file in sorted(os.listdir(lightmap_directory)):
             print("  - {}".format(lightmap_file[:-5]))
     else:
         print("No lightmaps available")
@@ -173,7 +193,7 @@ def list_profiles():
 
     if len(os.listdir(profile_directory)) > 0:
         print("Available profiles:")
-        for profile_file in os.listdir(profile_directory):
+        for profile_file in sorted(os.listdir(profile_directory)):
             print("  - {}".format(profile_file[:-5]))
     else:
         print("No profiles available")
@@ -212,10 +232,6 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    if not args.command:
-        parser.print_help()
-        exit(0)
-
     # Create device manager
     try:
         device_manager = DeviceManager()
@@ -230,24 +246,32 @@ if __name__ == "__main__":
     profile_directory = args.profile_directory
 
     if not os.path.exists(lightmap_directory):
-        error(
-            "lightmap directory '{}' doesn't exist, please create it".format(
-                lightmap_directory
-            )
-        )
-        directories_available = False
+        error("lightmap directory '{}' doesn't exist".format(lightmap_directory))
+        create = input("Create the directory? [y/N] ")
+        if create in ["y", "Y"]:
+            Path(lightmap_directory).mkdir(parents=True, exist_ok=True)
+        else:
+            directories_available = False
     if not os.path.exists(profile_directory):
-        error(
-            "profile directory '{}' doesn't exist, please create it".format(
-                profile_directory
-            )
-        )
-        directories_available = False
+        error("profile directory '{}' doesn't exist".format(profile_directory))
+        create = input("Create the directory? [y/N] ")
+        if create in ["y", "Y"]:
+            Path(profile_directory).mkdir(parents=True, exist_ok=True)
+        else:
+            directories_available = False
     if not directories_available:
         exit(1)
 
+    if not args.command:
+
+        # Apply 'default' profile if existent, else print help
+        if "default.toml" in os.listdir(profile_directory):
+            apply_profile("default")
+        else:
+            parser.print_help()
+
     # Execute command
-    if args.command == "list-devices":
+    elif args.command == "list-devices":
         list_devices()
     elif args.command == "list-lightmaps":
         list_lightmaps()
@@ -256,18 +280,4 @@ if __name__ == "__main__":
     elif args.command == "iterate-lights":
         iterate_lights()
     elif args.command:
-        # Load profile
-        try:
-            profile = toml.load("{}/{}.toml".format(profile_directory, args.command))
-        except FileNotFoundError:
-            error("the profile '{}' doesn't exist".format(args.command))
-            list_profiles()
-            exit(1)
-        except Exception as e:
-            print(type(e))
-            error("couldn't load profile '{}': {}".format(args.command, e))
-            exit(1)
-        for device in profile:
-            apply_lightmap(profile[device])
-
-        print("Profile '{}' applied".format(args.command))
+        apply_profile(args.command)
