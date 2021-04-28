@@ -34,7 +34,10 @@
   
   The WASD keys get now lighted accordingly.
 
-  This allows to switch quickly between lighting profiles using the command line, a script or even [[https://direnv.net/][direnv]].
+  This allows to switch quickly between lighting profiles using the command line or a script.
+  Profile switching per current work-directory can e.g. easily be achieved with [[https://direnv.net/][direnv]].
+
+  An instruction how to apply profiles automatically while running *Steam* games can be found below.
   
 ** Features
 
@@ -163,7 +166,34 @@
     - HTML color name (e.g. =green=) (a full list can be found [[https://www.w3schools.com/colors/colors_names.asp][here]])
 
     Not set lights are turned off.
-    
+
+** Steam
+
+   *Steam* allows to set various launch options for games.
+   This functionality can also be used to apply lighting profiles before the startup and after the exit of a game.
+
+   Lets assume you created a profile called =my_favourite_game= and one called =default=.
+   Right click on your favourite game in the Steam launcher and click /Properties.../.
+   On the bottom of the /General/ section is a text field, labeled /launch options/.
+   Insert the following command:
+
+   #+begin_src sh
+     rzr my_favourite_game & %command% && rzr || rzr
+   #+end_src
+
+   The first command applies the profile =my_favourite_game= as usual.
+   =&= ensures that the next command is called even if the first on failed.
+   Your game should start even if *rzr* failed or you have messed up your profile file.
+   
+   Steam then substitutes the =%command%= part with the binary of the game and runs it.
+   
+   The =&&= waits until the first command exited correctly, speaking you quit the game.
+   If this is the case, the command =rzr= applies your =default= profile.
+
+   In the case of a game crash, the =|| rzr= part makes sure your =default= profile gets applied anyway.
+   
+   It is neccessary that *rzr* is installed correctly and available in your =$PATH=, otherwise Steam will not be able to call it.
+   
 ** Troubleshooting
 
    Make sure your user is in the =plugdev= group to access the OpenRazer daemon.
