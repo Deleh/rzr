@@ -16,7 +16,7 @@
   
   *rzr* is a simple command line frontend for [[https://openrazer.github.io/][OpenRazer]].
   It allows to set static lighting profiles of Razer devices, based on configuration files.
-
+  
   Lets assume you have created a profile with the name =fps=, containing the following color declarations:
 
   #+begin_src toml
@@ -38,6 +38,9 @@
   Profile switching per current work-directory can e.g. easily be achieved with [[https://direnv.net/][direnv]].
 
   An instruction how to apply profiles automatically while running *Steam* games can be found below.
+
+  Currently only devices with the /LED matrix/ feature are supported.
+  Every device on which single LED colors can be set should fall into this category.
   
 ** Features
 
@@ -97,7 +100,7 @@
 
 *** Lightmaps
 
-    The lights of Razer devices are arranged in two dimensional matrices with various numbers of columns and rows.
+    The lights of Razer devices (on which single LED colors can be set) are arranged in two dimensional matrices with various numbers of columns and rows.
     So called /lightmaps/ are TOML files which map identifiers to positions in the matrices.
     For every device at least one lightmap must be created and be placed in the =LIGHTMAP_DIRECTORY= (default: =~/.config/rzr/lightmaps=).
     
