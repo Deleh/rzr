@@ -101,12 +101,13 @@
     So called /lightmaps/ are TOML files which map identifiers to positions in the matrices.
     For every device at least one lightmap must be created and be placed in the =LIGHTMAP_DIRECTORY= (default: =~/.config/rzr/lightmaps=).
     
-    Lightmaps for the following devices can be found in the =lightmaps= directory:
+    Lightmaps for the following devices can already be found in the =lightmaps= directory:
 
-    - Razer BlackWidow Chroma german keyboard layout (=blackwidow_chroma_de.toml=)
+    - Razer BlackWidow Chroma with german keyboard layout (=blackwidow_chroma_de.toml=)
     - Razer Mamba Elite (=mamba_elite.toml=)
 
     If your device is not in the list, use one of those as template and feel free to create a pull request.
+
     The =iterate-lights= command iterates through every found device, turns on one light after another and prints the matrix position to stdout.
     This should ease the creation of new lightmaps.
 
