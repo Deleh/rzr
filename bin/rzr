@@ -97,11 +97,20 @@ def apply_device_profile(device_profile):
 
     # Set light colors
     try:
-        for light in device_profile["lights"]:
-            color_tuple = get_color_tuple((device_profile["lights"][light]))
-            device.fx.advanced.matrix[
-                lightmap[light][0], lightmap[light][1]
-            ] = color_tuple
+
+        # If lights are declared apply profile, else turn lights off
+        if "lights" in device_profile:
+            for light in device_profile["lights"]:
+                color_tuple = get_color_tuple((device_profile["lights"][light]))
+                device.fx.advanced.matrix[
+                    lightmap[light][0], lightmap[light][1]
+                ] = color_tuple
+        else:
+            device.fx.none()
+
+        # Apply light colors
+        device.fx.advanced.draw()
+
     except KeyError:
         error(
             "light '{}' is not available in lightmap '{}' for device '{}'".format(
@@ -114,9 +123,6 @@ def apply_device_profile(device_profile):
                 light, device_profile["name"], e
             )
         )
-
-    # Apply light colors
-    device.fx.advanced.draw()
 
 
 def apply_profile(name):
@@ -133,11 +139,11 @@ def apply_profile(name):
         error("couldn't load profile '{}': {}".format(name, e))
     for device in profile:
 
-        # Check if mandatory fields "name" and "lightmap" exist
+        # Check if mandatory attributes "name" and "lightmap" exist
         if "name" not in profile[device]:
-            error("'name' declaration is missing for device '{}'".format(device))
+            error("'name' attribute is missing for device '{}'".format(device))
         if "lightmap" not in profile[device]:
-            error("'lightmap' declaration is missing for device '{}'".format(device))
+            error("'lightmap' attribute is missing for device '{}'".format(device))
 
         apply_device_profile(profile[device])
 
