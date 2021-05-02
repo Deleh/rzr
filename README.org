@@ -182,7 +182,7 @@
    Insert the following command:
 
    #+begin_src sh
-     rzr my_favourite_game & %command% && rzr || rzr
+     rzr my_favourite_game & %command%; rzr
    #+end_src
 
    The first command applies the profile =my_favourite_game= as usual.
@@ -191,10 +191,7 @@
    
    Steam then substitutes the =%command%= part with the binary of the game and runs it.
    
-   The =&&= waits until the first command exited correctly, speaking you quit the game.
-   If this is the case, the command =rzr= applies your =default= profile.
-
-   In the case of a game crash, the =|| rzr= part makes sure your =default= profile gets applied anyway.
+   The =;= waits until the game exited and the =rzr= command finally applies your =default= profile.
    
    It is neccessary that *rzr* is installed correctly and available in your =$PATH=, otherwise Steam will not be able to call it.
    
