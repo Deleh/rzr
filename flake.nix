@@ -43,11 +43,12 @@
 
             buildInputs = with pkgs; [
               python3
-              python3Packages.pip
-              python3Packages.virtualenv
               python3Packages.colour
               python3Packages.openrazer
+              python3Packages.pip
+              python3Packages.setuptools
               python3Packages.toml
+              python3Packages.virtualenv
             ];
 
           };
