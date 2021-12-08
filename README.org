@@ -1,6 +1,6 @@
 * rzr
 
-  #+begin_src text
+  #+begin_example
              _            _                 _
             /\ \        /\ \               /\ \
            /  \ \      /  \ \             /  \ \
@@ -12,7 +12,7 @@
      / / /\ \ \         \ \ \__/\_\ / / /\ \ \ 
     / / /  \ \ \         \ \___\/ // / /  \ \ \
     \/_/    \_\/          \/___/_/ \/_/    \_\/
-  #+end_src
+  #+end_example
   
   *rzr* is a simple command line frontend for [[https://openrazer.github.io/][OpenRazer]].
   It allows to set static lighting profiles of Razer devices, based on configuration files.
@@ -28,9 +28,7 @@
 
   All you have to do to apply the profile is to execute the following command:
 
-  #+begin_src sh
-    rzr fps
-  #+end_src
+  : $ rzr fps
   
   The WASD keys get now lighted accordingly.
 
@@ -55,25 +53,19 @@
    This project is a [[https://nixos.wiki/wiki/Flakes][Nix flake]].
    If you are running a recent version of the [[https://nixos.org/][Nix]] package manager and have flakes enabled, you can execute it with:
 
-   #+begin_src sh
-     nix run github:Deleh/rzr
-   #+end_src
+   : $ nix run github:Deleh/rzr
 
    On legacy systems you need to make sure the [[https://github.com/openrazer/openrazer/tree/master/pylib][Python libraries]] for OpenRazer are in your path, then clone this repository and execute:
 
-   #+begin_src sh
-     python setup.py install
-   #+end_src
+   : $ python setup.py install
 
    Or make sure the requirements in =requirements.txt= are fulfilled and call the program directly with:
 
-   #+begin_src sh
-     python bin/rzr
-   #+end_src
+   : $ python bin/rzr
    
 ** Usage
 
-   #+begin_src text
+   #+begin_example
      usage: rzr [-h] [-ld LIGHTMAP_DIRECTORY] [-pd PROFILE_DIRECTORY] [COMMAND]
 
      Set color profiles of your Razer devices.
@@ -92,7 +84,7 @@
                              path to directory with lightmaps (default: ~/.config/rzr/lightmaps)
        -pd PROFILE_DIRECTORY, --profile-directory PROFILE_DIRECTORY
                              path to directory with profiles (default: ~/.config/rzr/profiles)
-   #+end_src
+   #+end_example
 
    If no command is given and the profile =default= exists, it is applied.
 
@@ -181,9 +173,7 @@
    On the bottom of the /General/ section is a text field, labeled /launch options/.
    Insert the following command:
 
-   #+begin_src sh
-     rzr my_favourite_game & %command%; rzr
-   #+end_src
+   : rzr my_favourite_game & %command%; rzr
 
    The first command applies the profile =my_favourite_game= as usual.
    =&= ensures that the next command is called even if the first one failed.
@@ -201,14 +191,10 @@
 
    If this is the case and you still have problems, stop the daemon with the following command:
   
-   #+begin_example sh
-     systemctl --user stop openrazer-daemon.service
-   #+end_example
+   : $ systemctl --user stop openrazer-daemon.service
 
    Then run it manually and check the output:
    
-   #+begin_src sh
-     openrazer-daemon -Fv
-   #+end_src
+   : $ openrazer-daemon -Fv
 
    If it complains about a missing config file, put [[https://github.com/openrazer/openrazer/blob/master/daemon/resources/razer.conf][this]] file in the =~/.config/openrazer= directory and restart the daemon.
