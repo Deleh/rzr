@@ -12,24 +12,6 @@ import toml
 import sys
 
 
-def print_greeter():
-    """Print greeter."""
-    greeter = """         _            _                 _
-        /\ \        /\ \               /\ \    
-       /  \ \      /  \ \             /  \ \   
-      / /\ \ \  __/ /\ \ \           / /\ \ \  
-     / / /\ \_\/___/ /\ \ \         / / /\ \_\ 
-    / / /_/ / /\___\/ / / /        / / /_/ / / 
-   / / /__\/ /       / / /        / / /__\/ /  
-  / / /_____/       / / /    _   / / /_____/   
- / / /\ \ \         \ \ \__/\_\ / / /\ \ \     
-/ / /  \ \ \         \ \___\/ // / /  \ \ \    
-\/_/    \_\/          \/___/_/ \/_/    \_\/    
-    """
-
-    print(greeter)
-
-
 def error(msg, e=True):
     """Print error to stderr and exit eventually."""
     print("ERROR: {}".format(msg), file=sys.stderr)
@@ -102,9 +84,9 @@ def apply_device_profile(device_profile):
         if "lights" in device_profile:
             for light in device_profile["lights"]:
                 color_tuple = get_color_tuple((device_profile["lights"][light]))
-                device.fx.advanced.matrix[
-                    lightmap[light][0], lightmap[light][1]
-                ] = color_tuple
+                device.fx.advanced.matrix[lightmap[light][0], lightmap[light][1]] = (
+                    color_tuple
+                )
         else:
             device.fx.none()
 
@@ -214,11 +196,7 @@ def list_profiles():
 
 
 def main():
-
     global device_manager, lightmap_directory, profile_directory
-
-    # Print greeter
-    print_greeter()
 
     # Parse arguments
     parser = argparse.ArgumentParser(

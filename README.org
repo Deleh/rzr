@@ -118,7 +118,7 @@
       t = [2, 6]
     #+end_src
 
-    The =tab= identifies for example the key in the third row and second colum (counting starts at 0) which is the tabulator key on the keyboard.
+    The =tab= identifies for example the key in the third row and second column (counting starts at 0) which is the tabulator key on the keyboard.
     Those identifiers can then be used in profiles to set light colors.
     
 *** Profiles
@@ -183,7 +183,7 @@
    
    The =;= waits until the game exited and the =rzr= command finally applies your =default= profile.
    
-   It is neccessary that *rzr* is installed correctly and available in your =$PATH=, otherwise Steam will not be able to call it.
+   It is necessary that *rzr* is installed correctly and available in your =$PATH=, otherwise Steam will not be able to call it.
    
 ** Troubleshooting
 
